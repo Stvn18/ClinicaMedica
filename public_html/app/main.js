@@ -4,14 +4,14 @@
  * and open the template in the editor.
  */
 
-var app = angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngAria', 'ngMaterial', 'ngMessages', 'ngAnimate']);
+var app = angular.module('app', ['ui.router', 'pascalprecht.translate', 'ngAria', 'ngMaterial', 'ngMessages', 'ngAnimate', 'ngCookies', 'chart.js']);
 
 app.constant('WS_URL', 'http://localhost:8084/ClinicaMedicaWS/');
 
 /**
  * Interceptamos las peticiones para mandar el userId y el token
  */
-app.factory('interceptor', function ($q, $cookies, $injector) {
+app.factory('interceptor', function ($cookies) {
     return {
         'request': function (config) {
 

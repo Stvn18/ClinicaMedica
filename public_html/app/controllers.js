@@ -1,5 +1,5 @@
 
-app.controller('PrincipalController', function ($scope, $mdSidenav, $state, $cookies) {
+app.controller('PrincipalController', function ( $mdSidenav, $state, $cookies) {
 
     var vm = this;
 
@@ -149,11 +149,14 @@ app.controller('LoginController', function ($rootScope, $scope, $mdSidenav, $sta
         UsuarioSessionService.login(vm.usuario, vm.pass).success(function (data, status) {
             vm.isShowProgressLinear = false;
 
-            console.log(data);
-
             if (status === 202) {
 
-                Materialize.toast('Contraseña Incorrecta', 3000, 'error');
+                $mdToast.show(
+                        $mdToast.simple()
+                        .hideDelay(3000)
+                        .position('top right')
+                        .textContent('Contraseña incorrecta')
+                        );
 
             } else {
 
@@ -164,13 +167,16 @@ app.controller('LoginController', function ($rootScope, $scope, $mdSidenav, $sta
                     'pantallas': []
                 };
                 
-                data.usuario.usuarioPerfil.asignacionPerfilMenus.forEach(function (row, index) {
+                data.usuario.rol.pantallas.forEach(function(row, index){
+                    session.pantalla.push(row.pantalla);
+                });
+                /*data.usuario.usuarioPerfil.asignacionPerfilMenus.forEach(function (row, index) {
 
                     session.menus.push(row.menu);
 
-                });
+                });*/
 
-                $cookies.putObject('umgEvaluaciones', session);
+                $cookies.putObject('umgClinica', session);
 
                 console.log($rootScope);
 
@@ -187,13 +193,23 @@ app.controller('LoginController', function ($rootScope, $scope, $mdSidenav, $sta
 
             if (status === 404) {
 
-                Materialize.toast('Usuario no Existe', 3000, 'error');
+                        $mdToast.show(
+                        $mdToast.simple()
+                        .hideDelay(3000)
+                        .position('top right')
+                        .textContent('Usuario no existe')
+                        );
 
                 vm.user = "";
                 vm.password = "";
 
             } else {
-                Materialize.toast('Error Interno', 3000, 'error');
+                       $mdToast.show(
+                        $mdToast.simple()
+                        .hideDelay(3000)
+                        .position('top right')
+                        .textContent('Error interno')
+                        );
             }
 
         });
