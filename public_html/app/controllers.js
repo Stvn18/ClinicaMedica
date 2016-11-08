@@ -1,9 +1,9 @@
 
-app.controller('PrincipalController', function ( $mdSidenav, $state, $cookies) {
+app.controller('PrincipalController', function ($mdSidenav, $state, $cookies) {
 
     var vm = this;
 
-    vm.menu = [];
+    vm.pantallas = [];
 
     vm.validateSession = function () {
 
@@ -19,14 +19,14 @@ app.controller('PrincipalController', function ( $mdSidenav, $state, $cookies) {
             $state.transitionTo("login");
         } else {
 
-            vm.menus = session.menus;
+            vm.pantallas = session.pantallas;
 
         }
 
     };
 
     vm.abrirMenu = function () {
-        $mdSidenav('appMenu').toogle().then(function () {
+        $mdSidenav('appMenu').toggle().then(function () {
 
         });
     };
@@ -39,73 +39,6 @@ app.controller('PrincipalController', function ( $mdSidenav, $state, $cookies) {
     vm.navigateTo = function (menuId, $event) {
 
         switch (menuId) {
-
-            case 1:
-
-                $state.transitionTo("menu.asignacionHorarios");
-
-                break;
-
-            case 2:
-
-                $state.transitionTo("menu.cargarInventario");
-
-                break;
-
-            case 3:
-
-                $state.transitionTo("menu.crearUsuario");
-
-                break;
-
-            case 4:
-
-                $state.transitionTo("menu.historialPaciente");
-
-                break;
-
-            case 5:
-
-                $state.transitionTo("menu.modificarCita");
-
-                break;
-
-            case 6:
-
-                $state.transitionTo("menu.registrarCita");
-
-                break;
-
-            case 7:
-
-                $state.transitionTo("menu.registrarPaciente");
-
-                break;
-
-            case 8:
-
-                $state.transitionTo("menu.ventaMedicamento");
-
-                break;
-
-            case 9:
-
-                $state.transitionTo("menu.asignacion");
-
-                break;
-
-            case 10:
-
-                $state.transitionTo("menu.citaDoctor");
-
-                break;
-
-            case 11:
-
-                $state.transitionTo("menu.medicamentos");
-
-                break;
-
             case -1:
 
                 vm.logout();
@@ -166,21 +99,14 @@ app.controller('LoginController', function ($rootScope, $scope, $mdSidenav, $sta
                     'userName': data.usuario.nombre,
                     'pantallas': []
                 };
-                
-                data.usuario.rol.pantallas.forEach(function(row, index){
-                    session.pantalla.push(row.pantalla);
+
+                data.usuario.rol.pantallas.forEach(function (row, index) {
+                    session.pantallas.push(row);
                 });
-                /*data.usuario.usuarioPerfil.asignacionPerfilMenus.forEach(function (row, index) {
-
-                    session.menus.push(row.menu);
-
-                });*/
 
                 $cookies.putObject('umgClinica', session);
 
-                console.log($rootScope);
-
-                $state.transitionTo("main");
+                $state.transitionTo("menu");
 
             }
 
@@ -193,7 +119,7 @@ app.controller('LoginController', function ($rootScope, $scope, $mdSidenav, $sta
 
             if (status === 404) {
 
-                        $mdToast.show(
+                $mdToast.show(
                         $mdToast.simple()
                         .hideDelay(3000)
                         .position('top right')
@@ -204,7 +130,7 @@ app.controller('LoginController', function ($rootScope, $scope, $mdSidenav, $sta
                 vm.password = "";
 
             } else {
-                       $mdToast.show(
+                $mdToast.show(
                         $mdToast.simple()
                         .hideDelay(3000)
                         .position('top right')
@@ -220,3 +146,87 @@ app.controller('LoginController', function ($rootScope, $scope, $mdSidenav, $sta
 
 });
 
+app.controller('RegistrarCitaController', function ($scope, $timeout, HorarioService, PacienteService, TrabajadorService, CitaService) {
+
+    var vm = this;
+
+    vm.pacientes = [];
+    vm.trabajadores = [];
+    vm.horarios = [];
+    
+    vm.cita = {
+        asignaciones:[
+            {}
+        ]
+    };
+
+    vm.getPacientes = function () {
+
+        PacienteService.findAll().success(function (data, status) {
+
+            vm.pacientes = data;
+
+        }).error(function (data, status) {
+            console.error(data);
+        });
+
+    };
+
+    vm.getTrabajadores = function () {
+
+        TrabajadorService.findByPuesto(2).success(function (data, status) {
+            vm.trabajadores = data;
+        }).error(function (data, status) {
+            console.error(data);
+        });
+
+    };
+
+    vm.getHorarios = function () {
+
+        HorarioService.findAll().success(function (data, status) {
+            vm.horarios = data;
+        }).error(function (data, status) {
+            console.error(data);
+        });
+
+    };
+    
+    
+    vm.registrar = function(){
+        
+        console.log(vm.cita);
+        
+        CitaService.onCreate(vm.cita).success(function(data, status){
+            
+            console.log(data);
+            
+            if(status === 200){
+                
+                /**
+                 * mostrar mensaje
+                 */
+                
+                vm.cita.descripcion = "";
+                vm.cita.estado = "";
+                vm.cita.horario = undefined;
+                
+                vm.cita.asignaciones[0] = undefined;
+                
+            }
+            
+        }).error(function(data, status){
+            console.error(data);
+        });
+        
+        
+    };
+
+    $timeout(function () {
+        
+        vm.getHorarios();
+        vm.getPacientes();
+        vm.getTrabajadores();
+
+    }, 1000);
+});

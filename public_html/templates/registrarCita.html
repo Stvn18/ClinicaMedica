@@ -1,1 +1,70 @@
-<h5>Estoy en registrar Cita</h5>
+<md-content ng-cloak>
+
+    <div layout="row" layout-align="center center">
+        <div flex="50">
+            <md-card>
+                
+                <div layout="row" layout-align="center center">
+                    <h4>Registrar cita</h4>
+                </div>
+                
+                <div layout="row">
+                    <div flex="100">
+                        <md-input-container style="width: 98%;">
+                            <label>Descripcion</label>
+                            <input type="text" ng-model="vm.cita.descripcion" />
+                        </md-input-container>
+                    </div>
+                </div>
+                
+                <div layout="row">
+                    <div flex="100">
+                        <md-input-container style="width: 98%;">
+                            <label>Estado</label>
+                            <input type="text" ng-model="vm.cita.estado" />
+                        </md-input-container>
+                    </div>
+                </div>
+                
+                <div layout="row">
+                    <div flex="100">
+                        <md-input-container style="width: 98%;">
+                            <label>Horario</label>
+                            <md-select ng-model="vm.cita.horario">
+                                <md-option ng-value="{{horario}}" ng-repeat="horario in vm.horarios">{{horario.fecha | date: "dd/MM/yyyy HH:mm:ss"}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                </div>
+                
+                <div layout="row">
+                    <div flex="100">
+                        <md-input-container style="width: 98%;">
+                            <label>Paciente</label>
+                            <md-select ng-model="vm.cita.asignaciones[0].paciente">
+                                <md-option ng-value="{{paciente}}" ng-repeat="paciente in vm.pacientes">{{paciente.nombre}} {{paciente.apellido}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <div layout="row">
+                    <div flex="100">
+                        <md-input-container style="width: 98%;">
+                            <label>Medico</label>
+                            <md-select ng-model="vm.cita.asignaciones[0].trabajador">
+                                <md-option ng-value="{{trabajador}}" ng-repeat="trabajador in vm.trabajadores">{{trabajador.nombre}} {{trabajador.apellido}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                </div>
+                
+                <div layout="row" layout-align="center center">
+                    <md-button class="md-raised md-warn" ng-click="vm.registrar()" >Registrar</md-button>
+                </div>
+                
+            </md-card>
+        </div>
+    </div>
+    
+</md-content>

@@ -14,9 +14,6 @@ app.constant('WS_URL', 'http://localhost:8084/ClinicaMedicaWS/');
 app.factory('interceptor', function ($cookies) {
     return {
         'request': function (config) {
-
-            console.log(config);
-
             if (config.url.indexOf('http') === 0) {
 
                 var session = $cookies.getObject('umgClinica');
@@ -36,9 +33,6 @@ app.factory('interceptor', function ($cookies) {
 
         },
         'response': function (response) {
-
-            console.log(response);
-
             return response;
         }
     };
@@ -170,17 +164,7 @@ app.config(function ($stateProvider, $translateProvider, $mdThemingProvider, $ht
                     }
                 }
             });
-
-    $translateProvider.useStaticFilesLoader({
-        prefix: 'lan/',
-        suffix: '.json'
-    });
-
-    /*
-     * Configuramos el idioma por defecto
-     */
-
-    $translateProvider.preferredLanguage('es');
+            
     /*
      * 
      * Configuracion del tema 29/10/2016
