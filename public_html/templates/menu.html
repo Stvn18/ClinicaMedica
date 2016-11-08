@@ -1,1 +1,47 @@
-<h5>Estoy en el menu</h5>
+<!--Html para la barra de herramientas(toolbar)-->
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" ng-click="vm.abrirMenu()">
+            <!--<md-icon style="font-size: 60px; height: 48px; flex-grow: 1; line-height: 24px;" md-svg-icon="resources/icons/menu.svg" ></md-icon>-->
+            <md-icon  md-svg-icon="resources/icons/menu.svg" ></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<!--HTML para la barra de menus-->
+<md-sidenav class="md-sidenav-left md-whiteframe-2dp" md-component-id="appMenu">
+    <md-content>
+        <center>
+            <div style="width: 180px; padding: 10px;">
+                <img style="width: 100%;" src="resources/images/ambulancia.png"/>
+            </div>
+        </center>
+
+        <md-list>
+            <md-list-item ng-click="vm.navigateTo(1, $event)">
+                <md-icon md-svg-icon="resources/icons/statics.svg"></md-icon>
+                <p>Estadisticas</p>
+            </md-list-item>
+            <md-list-item ng-click="vm.navigateTo(2, $event)">
+                <md-icon md-svg-icon="resources/icons/filter_none.svg"></md-icon>
+                <p>Evaluaciones</p>
+            </md-list-item>
+            <md-list-item ng-click="vm.navigateTo(3, $event)">
+                <md-icon md-svg-icon="resources/icons/students.svg"></md-icon>
+                <p>Estudiantes</p>
+            </md-list-item>
+            <md-list-item ng-click="vm.navigateTo(4, $event)">
+                <md-icon md-svg-icon="resources/icons/teacher.svg"></md-icon>
+                <p>Catedraticos</p>
+            </md-list-item>
+            <md-list-item ng-click="vm.navigateTo(-1, $event)">
+                <md-icon md-svg-icon="resources/icons/exit.svg"></md-icon>
+                <p>Salir</p>
+            </md-list-item>
+        </md-list>
+    </md-content>
+</md-sidenav>
+
+<div ui-view="menu">
+    
+</div>
