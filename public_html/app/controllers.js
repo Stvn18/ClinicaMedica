@@ -278,15 +278,6 @@ app.controller('RegistrarPacienteController', function ( PacienteService, $mdToa
                         );
             }
 
-            if (status === 302) {
-                $mdToast.show(
-                        $mdToast.simple()
-                        .hideDelay(3000)
-                        .position('top right')
-                        .textContent('Usuario Ya Existe')
-                        );
-            }
-
             if (status === 200) {
 
                 $mdToast.show(
