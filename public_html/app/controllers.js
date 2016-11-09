@@ -146,16 +146,16 @@ app.controller('LoginController', function ($rootScope, $scope, $mdSidenav, $sta
 
 });
 
-app.controller('RegistrarCitaController', function ($scope, $timeout, HorarioService, PacienteService, TrabajadorService, CitaService) {
+app.controller('RegistrarCitaController', function ($scope, $rootScope, $timeout, HorarioService, PacienteService, TrabajadorService, CitaService) {
 
     var vm = this;
 
     vm.pacientes = [];
     vm.trabajadores = [];
     vm.horarios = [];
-    
+
     vm.cita = {
-        asignaciones:[
+        asignaciones: [
             {}
         ]
     };
@@ -191,39 +191,39 @@ app.controller('RegistrarCitaController', function ($scope, $timeout, HorarioSer
         });
 
     };
-    
-    
-    vm.registrar = function(){
-        
+
+
+    vm.registrar = function () {
+
         console.log(vm.cita);
-        
-        CitaService.onCreate(vm.cita).success(function(data, status){
-            
+
+        CitaService.onCreate(vm.cita).success(function (data, status) {
+
             console.log(data);
-            
-            if(status === 200){
-                
+
+            if (status === 200) {
+
                 /**
                  * mostrar mensaje
                  */
-                
+
                 vm.cita.descripcion = "";
                 vm.cita.estado = "";
                 vm.cita.horario = undefined;
-                
+
                 vm.cita.asignaciones[0] = undefined;
-                
+
             }
-            
-        }).error(function(data, status){
+
+        }).error(function (data, status) {
             console.error(data);
         });
-        
-        
+
+
     };
 
     $timeout(function () {
-        
+
         vm.getHorarios();
         vm.getPacientes();
         vm.getTrabajadores();
