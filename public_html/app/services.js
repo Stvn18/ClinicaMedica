@@ -58,6 +58,15 @@ app.service('PacienteService', function ($http, WS_URL) {
             params: {}
         });
     };
+    
+    service.onCreate = function(paciente){
+         return $http({
+            url: getUrl(),
+            method: 'POST',
+            data: paciente,
+            params: {}
+        });       
+    }
 
 });
 

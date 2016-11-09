@@ -1,1 +1,71 @@
-<h5>Estoy en Registrar Paciente</h5>
+<md-content ng-cloak>
+
+    <div layout="row" layout-align="center center">
+        <div flex="50">
+            <md-card>
+
+                <div layout="row" layout-align="center center">
+                    <h3>Registrar Paciente</h3>
+                </div>
+
+
+                <div layout="row">
+
+                    <div flex="50">
+                        <md-input-container style="width: 98%;">
+                            <label>Nombre</label>
+                            <input type="text" ng-model="vm.paciente.nombre" />
+                        </md-input-container>
+                    </div>
+
+                    <div flex="50">
+                        <md-input-container style="width: 98%;">
+                            <label>Apellido</label>
+                            <input type="text" ng-model="vm.paciente.apellido" />
+                        </md-input-container>
+                    </div>
+
+                </div>
+
+                <div layout="row">
+                    <div flex="50">
+                        <md-input-container style="width: 98%;">
+                            <label>Edad</label>
+                            <input type="number" ng-model="vm.paciente.edad" />
+                        </md-input-container>
+                    </div>
+                    <div flex="50">
+                        <md-input-container style="width: 98%;">
+                            <label>Telefono</label>
+                            <input type="text" ng-model="vm.paciente.telefono" />
+                        </md-input-container>
+                    </div>
+                </div>
+                
+                <div layout="row">
+                    <div flex="50">
+                        <md-input-container style="width: 98%;">
+                            <label>Sexo</label>
+                            <md-select ng-model="vm.paciente.sexo">
+                                <md-option ng-value="M" >Masculino</md-option>
+                                <md-option ng-value="F" >Femenino</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div flex="50">
+                        <md-input-container style="width: 98%;">
+                            <label>Igss</label>
+                            <input type="text" ng-model="vm.paciente.igss" />
+                        </md-input-container>
+                    </div>
+                </div>
+                <br><br>
+                <div layout="row" layout-align="center center">
+                    <md-button class="md-raised md-warn" ng-click="vm.registrar()">Registrar</md-button>
+                </div>
+
+            </md-card>
+        </div>
+    </div>
+
+</md-content>

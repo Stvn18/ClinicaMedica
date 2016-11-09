@@ -146,7 +146,7 @@ app.controller('LoginController', function ($rootScope, $scope, $mdSidenav, $sta
 
 });
 
-app.controller('RegistrarCitaController', function ($scope, $rootScope, $timeout, HorarioService, PacienteService, TrabajadorService, CitaService) {
+app.controller('RegistrarCitaController', function ($scope, $rootScope, $timeout, HorarioService, PacienteService, TrabajadorService, CitaService, $mdToast) {
 
     var vm = this;
 
@@ -201,16 +201,27 @@ app.controller('RegistrarCitaController', function ($scope, $rootScope, $timeout
 
             console.log(data);
 
+            if (status === 400) {
+                $mdToast.show(
+                        $mdToast.simple()
+                        .hideDelay(3000)
+                        .position('top right')
+                        .textContent('Por favor llenar todos los campos')
+                        );
+            }
+
             if (status === 200) {
 
-                /**
-                 * mostrar mensaje
-                 */
+                $mdToast.show(
+                        $mdToast.simple()
+                        .hideDelay(3000)
+                        .position('top right')
+                        .textContent('Cita Registrada Exitosamente')
+                        );
 
                 vm.cita.descripcion = "";
                 vm.cita.estado = "";
                 vm.cita.horario = undefined;
-
                 vm.cita.asignaciones[0] = undefined;
 
             }
@@ -229,4 +240,75 @@ app.controller('RegistrarCitaController', function ($scope, $rootScope, $timeout
         vm.getTrabajadores();
 
     }, 1000);
+});
+
+
+/*Controlador para registrar paciente*/
+app.controller('RegistrarPacienteController', function ( PacienteService, $mdToast) {
+
+    var vm = this;
+    
+    vm.paciente = {
+   
+    };
+
+    vm.paciente.nombre;
+    vm.paciente.apellido;
+    vm.paciente.edad;
+    vm.paciente.telefono;
+    vm.paciente.sexo=[];
+    vm.paciente.igss;
+    vm.paciente.clinica;
+
+
+    vm.registrar = function () {
+
+        console.log(vm.paciente);
+
+        PacienteService.onCreate(vm.paciente).success(function (data, status) {
+
+            console.log(data);
+
+            if (status === 400) {
+                $mdToast.show(
+                        $mdToast.simple()
+                        .hideDelay(3000)
+                        .position('top right')
+                        .textContent('Por favor llenar todos los campos')
+                        );
+            }
+
+            if (status === 302) {
+                $mdToast.show(
+                        $mdToast.simple()
+                        .hideDelay(3000)
+                        .position('top right')
+                        .textContent('Usuario Ya Existe')
+                        );
+            }
+
+            if (status === 200) {
+
+                $mdToast.show(
+                        $mdToast.simple()
+                        .hideDelay(3000)
+                        .position('top right')
+                        .textContent('Cita Registrada Exitosamente')
+                        );
+
+                vm.paciente.nombre = "";
+                vm.paciente.apellido = "";
+                vm.paciente.edad = 0;
+                vm.paciente.telefono = "";
+                //vm.paciente.sexo = "";
+                vm.paciente.igss = "";
+
+            }
+
+        }).error(function (data, status) {
+            console.error(data);
+        });
+
+
+    };
 });
